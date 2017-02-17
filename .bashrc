@@ -31,11 +31,6 @@ shopt -s checkwinsize
 # make less more friendly for non-text input files, see lesspipe(1)
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
 
-# set variable identifying the chroot you work in (used in the prompt below)
-if [ -z "${debian_chroot:-}" ] && [ -r /etc/debian_chroot ]; then
-    debian_chroot=$(cat /etc/debian_chroot)
-fi
-
 # set a fancy prompt (non-color, unless we know we "want" color)
 case "$TERM" in
     xterm-color) color_prompt=yes;;
@@ -58,27 +53,24 @@ if [ -n "$force_color_prompt" ]; then
 fi
 
 if [ "$color_prompt" = yes ]; then
-    
-    #PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
-    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;31m\]\u@\h-\A\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
-    #PS1='${debian_chroot:+($debian_chroot)}\[\e[1;31m\][\u@\h@\A \w]\[\e[m\] $ '
+    export PS1="\[\033[38;5;2m\]\u\[$(tput sgr0)\]\[\033[38;5;15m\]@\h:\[$(tput sgr0)\]\[\033[38;5;6m\][\w]:\[$(tput sgr0)\]\[\033[38;5;15m\] \[$(tput sgr0)\]"    
 else
-    PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
+    export PS1="\u@\h:\w\\$ \[$(tput sgr0)\]"
 fi
 unset color_prompt force_color_prompt
 
 # If this is an xterm set the title to user@host:dir
-case "$TERM" in
-xterm*|rxvt*)
-    PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
-    ;;
-*)
-    ;;
-esac
+#case "$TERM" in
+#xterm*|rxvt*)
+#    PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
+#    ;;
+#*)
+#    ;;
+#esac
 
 # enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then
-    test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
+    #test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
     alias ls='ls --color=auto'
     #alias dir='dir --color=auto'
     #alias vdir='vdir --color=auto'
@@ -135,17 +127,17 @@ alias ..='cd ..'
 # }}}
 
 # Privileged access
-if [ $UID -ne 0 ]; then
-    alias sudo='sudo '
-    alias scat='sudo cat'
-    alias svim='sudoedit'
-    alias root='sudo -s'
-    alias reboot='sudo systemctl reboot'
-    alias poweroff='sudo systemctl poweroff'
-    alias update='yaourt -Suya'
-    alias netctl='sudo netctl'
-    alias sano='sudo nano'
-fi
+#if [ $UID -ne 0 ]; then
+#    alias sudo='sudo '
+#    alias scat='sudo cat'
+#    alias svim='sudoedit'
+#    alias root='sudo -s'
+#    alias reboot='sudo systemctl reboot'
+#    alias poweroff='sudo systemctl poweroff'
+#    alias update='yaourt -Suya'
+#    alias netctl='sudo netctl'
+#    alias sano='sudo nano'
+#fi
 
 ## ls ## {{{
 #alias ls='ls -hF --color=auto'
@@ -159,15 +151,15 @@ alias lm='la | more'
 # }}}
 
 ## Safety features ## {{{
-alias cp='cp -i'
-alias mv='mv -i'
-alias rm='rm -I'                    # 'rm -i' prompts for every file
+#alias cp='cp -i'
+#alias mv='mv -i'
+#alias rm='rm -I'                    # 'rm -i' prompts for every file
 # safer alternative w/ timeout, not stored in history
 #alias rm=' timeout 3 rm -Iv --one-file-system'
-alias ln='ln -i'
-alias chown='chown --preserve-root'
-alias chmod='chmod --preserve-root'
-alias chgrp='chgrp --preserve-root'
+#alias ln='ln -i'
+#alias chown='chown --preserve-root'
+#alias chmod='chmod --preserve-root'
+#alias chgrp='chgrp --preserve-root'
 alias cls=' echo -ne "\033c"'       # clear screen for real (it does not work in Terminology)
 # }}}
 
@@ -180,16 +172,16 @@ alias cd..='cd ..'
 
 ## Pacman aliases ## {{{
 #if necessary, replace 'pacman' with your favorite AUR helper and adapt the commands accordingly
-alias pac="sudo /usr/bin/pacman -S"		# default action	- install one or more packages
-alias pacu="/usr/bin/pacman -Syu"		# '[u]pdate'		- upgrade all packages to their newest version
-alias pacr="sudo /usr/bin/pacman -Rs"		# '[r]emove'		- uninstall one or more packages
-alias pacs="/usr/bin/pacman -Ss"		# '[s]earch'		- search for a package using one or more keywords
-alias paci="/usr/bin/pacman -Si"		# '[i]nfo'		- show information about a package
-alias paclo="/usr/bin/pacman -Qdt"		# '[l]ist [o]rphans'	- list all packages which are orphaned
-alias pacc="sudo /usr/bin/pacman -Scc"		# '[c]lean cache'	- delete all not currently installed package files
-alias paclf="/usr/bin/pacman -Ql"		# '[l]ist [f]iles'	- list all files installed by a given package
-alias pacexpl="/usr/bin/pacman -D --asexp"	# 'mark as [expl]icit'	- mark one or more packages as explicitly installed 
-alias pacimpl="/usr/bin/pacman -D --asdep"	# 'mark as [impl]icit'	- mark one or more packages as non explicitly installed
+#alias pac="sudo /usr/bin/pacman -S"		# default action	- install one or more packages
+#alias pacu="/usr/bin/pacman -Syu"		# '[u]pdate'		- upgrade all packages to their newest version
+#alias pacr="sudo /usr/bin/pacman -Rs"		# '[r]emove'		- uninstall one or more packages
+#alias pacs="/usr/bin/pacman -Ss"		# '[s]earch'		- search for a package using one or more keywords
+#alias paci="/usr/bin/pacman -Si"		# '[i]nfo'		- show information about a package
+#alias paclo="/usr/bin/pacman -Qdt"		# '[l]ist [o]rphans'	- list all packages which are orphaned
+#alias pacc="sudo /usr/bin/pacman -Scc"		# '[c]lean cache'	- delete all not currently installed package files
+#alias paclf="/usr/bin/pacman -Ql"		# '[l]ist [f]iles'	- list all files installed by a given package
+#alias pacexpl="/usr/bin/pacman -D --asexp"	# 'mark as [expl]icit'	- mark one or more packages as explicitly installed 
+#alias pacimpl="/usr/bin/pacman -D --asdep"	# 'mark as [impl]icit'	- mark one or more packages as non explicitly installed
 
 # '[r]emove [o]rphans' - recursively remove ALL orphaned packages
 alias pacro="/usr/bin/pacman -Qtdq > /dev/null && sudo /usr/bin/pacman -Rs \$(/usr/bin/pacman -Qtdq | sed -e ':a;N;$!ba;s/\n/ /g')"
@@ -206,42 +198,9 @@ cl() {
     fi
 }
 
-#userscripts
-alias matlab='~/bin/MATLAB/R2014b/bin/matlab'
-alias cmatlab='~/bin/MATLAB/R2014b/bin/matlab -nosplash -nodesktop'
-alias cpu='cd /sys/devices/system/cpu/cpu0/cpufreq/'
-alias dt='sudo sh -c "echo 1 > /sys/devices/system/cpu/intel_pstate/no_turbo"'
-alias et='sudo sh -c "echo 0 > /sys/devices/system/cpu/intel_pstate/no_turbo"'
-alias low='sudo sh -c "echo 25 > /sys/devices/system/cpu/intel_pstate/max_perf_pct"'
-alias high='sudo sh -c "echo 100 > /sys/devices/system/cpu/intel_pstate/max_perf_pct"'
-alias pt='sudo powertop'
-alias wdir='cd ~/cloud/dev/wdir'
-#alias sublime-text='/opt/sublime-text/sublime_text'
-alias usb='sudo mount /dev/sdb /mnt/usb && cd /mnt/usb'
-alias uusb='sudo umount /mnt/usb'
-alias sd='sudo mount /dev/mmcblk0p1 /mnt/sd && cd /mnt/sd'
-alias usd='sudo umount /mnt/sd'
-alias monon='xset -dpms'
-alias monoff='xset +dpms'
-alias trim='~/.trim'
-alias touchpad='~/.touchpad'
-alias powertop='sudo powertop'
-alias gping='ping 8.8.8.8'
+export EDITOR="emacs"
+export BROWSER="chromium"
 
-alias laptop='xrandr --output LVDS1 --auto --output DP1 --off'
-alias monitor='xrandr --output LVDS1 --off --output DP1 --auto'
-alias dual='xrandr --output LVDS1 --auto --right-of DP1 --output DP1 --auto'
-alias both='xrandr --output LVDS1 --auto --output DP1 --mode 1280x1080'
-alias pip='xrandr --output LVDS1 --auto --output DP1 --mode 1920x1080'
-alias presentation='xrandr --output LVDS1 --auto --right-of VGA1 --output VGA1 --auto'
-alias minidlnad='minidlnad -f /home/$USER/.config/minidlna/minidlna.conf -P /home/$USER/.config/minidlna/minidlna.pid'
-alias bt='./.bt'
-alias fixtime='ntpd -q'
-
-export EDITOR="vim"
-export BROWSER="firefox"
-#export TESTJAVA="/home/marcel/cloud/ETH/6thSemesterFS15/BachelorThesis/hs-comp/build/linux-x86_64-normal-server-fastdebug/jdk"
-export GOPATH=~/go
 # ex - archive extractor
 # usage: ex <file>
 ex ()
@@ -276,26 +235,25 @@ ex ()
 # To undo the effect of this function, you can type "cd -" to return to the
 # original directory.
 
-function ranger-cd {
-    tempfile='/tmp/chosendir'
-    /usr/bin/ranger --choosedir="$tempfile" "${@:-$(pwd)}"
-    test -f "$tempfile" &&
-    if [ "$(cat -- "$tempfile")" != "$(echo -n `pwd`)" ]; then
-        cd -- "$(cat "$tempfile")"
-    fi
-    rm -f -- "$tempfile"
-}
+#function ranger-cd {
+#    tempfile='/tmp/chosendir'
+#    /usr/bin/ranger --choosedir="$tempfile" "${@:-$(pwd)}"
+#    test -f "$tempfile" &&
+#    if [ "$(cat -- "$tempfile")" != "$(echo -n `pwd`)" ]; then
+#        cd -- "$(cat "$tempfile")"
+#    fi
+#    rm -f -- "$tempfile"
+#}
 
 # This binds Ctrl-O to ranger-cd:
-bind '"\C-o":"ranger-cd\C-m"'
+#bind '"\C-o":"ranger-cd\C-m"'
 
-alias term='gnome-terminal'
-alias ranger='ranger-cd'
-alias new='clear && alsi'
-alias please='sudo $(history -p !!)'
+#alias term='gnome-terminal'
+#alias ranger='ranger-cd'
+#alias new='clear && alsi'
+#alias please='sudo $(history -p !!)'
 
 
-. ~/.bashsecret
-complete -r vim
+#. ~/.bashsecret
 
-alsi
+#alsi
