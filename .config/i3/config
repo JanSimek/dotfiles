@@ -34,10 +34,11 @@ set $mgrey    #b9c2cd
 # clear in small sizes. However, if you need a lot of unicode glyphs or
 # right-to-left text rendering, you should instead use pango for rendering and
 # chose a FreeType font, such as:
-font pango:DejaVu Sans Mono, FontAwesome 9
 #font pango: Cantarell Bold 10
 #font pango: Share Tech Bold 10
 #font pango: xos4 Terminus, Icons 9
+#font pango:DejaVu Sans Mono, FontAwesome 9
+font pango:Source Code Pro, FontAwesome 9
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
@@ -212,16 +213,16 @@ bindsym $mod+r mode "resize"
 bar {
     status_command i3status
     position top
-	colors {
-        	background          $grey
-        	statusline          $mgrey
-		separator           $grey
-        	#separator           $lgrey
-		#		    border	background   text
-        	focused_workspace   $grey       $grey        $white
-        	active_workspace    $grey       $grey        $mgrey
-        	inactive_workspace  $grey       $grey        $mgrey
-        	urgent_workspace    $grey        $blue        $white
+    colors {
+        background          $grey
+        statusline          $mgrey
+	separator           $grey
+        #separator           $lgrey
+	#		    border	background   text
+        focused_workspace   $grey       $grey        $white
+        active_workspace    $grey       $grey        $mgrey
+        inactive_workspace  $grey       $grey        $mgrey
+        urgent_workspace    $grey       $blue        $white
     }
 }
 
