@@ -7,6 +7,8 @@
 # ß
 # If the above line is not correctly displayed, fix your editor first!
 
+# http://fontawesome.io/cheatsheet/
+
 general {
         colors = false
         interval = 5
@@ -16,8 +18,8 @@ general {
 }
 
 order += "disk /"
-order += "disk /var"
-order += "disk /home"
+#order += "disk /var"
+#order += "disk /home"
 #order += "run_watch DHCP"
 #order += "run_watch VPN"
 order += "wireless wlp2s0"
@@ -30,13 +32,13 @@ order += "load"
 order += "tztime local"
 
 ipv6 {
-	format_up ="6 [yes]"
-	format_down="6 [no]"
+	format_up ="IPv6 [yes]"
+	format_down="IPv6 [no]"
 }
 
 wireless wlp2s0 {
         #format_up = "[%essid %quality %bitrate %ip]"
-	format_up = " [%essid %bitrate %ip]"        
+	format_up = " [%essid %quality %ip]"        
 	format_down = " [down]"
 }
 
